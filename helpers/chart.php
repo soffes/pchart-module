@@ -8,12 +8,12 @@ class chart_Core {
 		$chart->setFontProperties('tahoma.ttf', 8);
 		$chart->setGraphArea(1, 1, ($width - 1), ($height - 1));
 
-		$chart->drawScale($data->GetData(), $data->GetDataDescription(), SCALE_NORMAL, 200, 200, 200, FALSE);
+		$chart->drawScale($data, SCALE_NORMAL, 200, 200, 200, FALSE);
 
 		// Draw the line graph
-		$chart->drawLineGraph($data->GetData(), $data->GetDataDescription());
+		$chart->drawLineGraph($data);
 
-		$chart->Render($filename);
+		$chart->render($filename);
 	}
 	
 	public static function pie($data, $filename = 'pie.png', $width = 160, $height = 160)
@@ -24,23 +24,8 @@ class chart_Core {
 
 		// Draw the pie chart
 		$chart->setFontProperties('tahoma.ttf', 8);
-		$chart->drawBasicPieGraph($data->GetData(), $data->GetDataDescription(), ($width / 2), ($height / 2), $radius, PIE_LABELS);
+		$chart->drawBasicPieGraph($data, ($width / 2), ($height / 2), $radius, PIE_LABELS);
 
-		$chart->Render($filename);
-	}
-	
-	// Creates a hash for the arguments passed
-	public static function hash()
-	{
-		$items = func_get_args();
-		
-		if (count($items) == 0)
-		{
-			return '';
-		}
-		
-		$hash = '';
-				
-		return sha1(implode('|', $items));
+		$chart->render($filename);
 	}
 }
