@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct access allowed.');
  /*
      pData - Simplifying data population for pChart
      Copyright (C) 2008 Jean-Damien POGOLOTTI
@@ -45,12 +45,12 @@
  */
 
  /* pData class definition */
- class pData
+ class PData_Core
   {
    var $Data;
    var $DataDescription;
 
-   function pData()
+   function __construct()
     {
      $this->Data                           = "";
      $this->DataDescription                = "";
@@ -257,4 +257,3 @@
      return($this->DataDescription);
     }
   }
-?>

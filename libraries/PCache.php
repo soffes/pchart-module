@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct access allowed.');
  /*
      pCache - Faster renderding using data cache
      Copyright (C) 2008 Jean-Damien POGOLOTTI
@@ -32,15 +32,18 @@
  */
 
  /* pCache class definition */
- class pCache
+ class PCache_Core
   {
    var $HashKey     = "";
-   var $CacheFolder = "Cache/";
+   var $CacheFolder = Kohana::config('pchart.cache_folder');
 
    /* Create the pCache object */
-   function pCache($CacheFolder="Cache/")
+   function __construct($CacheFolder=FALSE)
     {
-     $this->CacheFolder = $CacheFolder;
+    	if ($CacheFolder !== FALSE)
+    	{
+    		$this->CacheFolder = $CacheFolder;
+    	}
     }
 
    /* This function is clearing the cache folder */
@@ -116,4 +119,3 @@
      return(md5($mKey));
     }
   }
-?>

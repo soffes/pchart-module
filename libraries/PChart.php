@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct access allowed.');
  /*
      pChart - a PHP class to build charts!
      Copyright (C) 2008 Jean-Damien POGOLOTTI
@@ -115,7 +115,7 @@
  define("ALIGN_BOTTOM_RIGHT",9);
 
  /* pChart class definition */
- class pChart
+ class PChart_Core
   {
    /* Palettes definition */
    var $Palette = array("0"=>array("R"=>188,"G"=>224,"B"=>46),
@@ -190,12 +190,13 @@
    /* Image Map settings */
    var $BuildMap         = FALSE;
    var $MapFunction      = NULL;
-   var $tmpFolder        = "tmp/";
+   var $tmpFolder        = NULL;
    var $MapID            = NULL;
 
    /* This function create the background picture */
-   function pChart($XSize,$YSize)
+   function __construct($XSize,$YSize)
     {
+     $this->tmpFoler = Kohana::config('pchart.temp_folder');
      $this->XSize   = $XSize;
      $this->YSize   = $YSize;
      $this->Picture = imagecreatetruecolor($XSize,$YSize);
@@ -215,8 +216,12 @@
     }
 
    /* Set the font properties */
-   function setFontProperties($FontName,$FontSize)
+   function setFontProperties($FontName,$FontSize,$useFontFolder=TRUE)
     {
+     if ($useFontFolder === TRUE)
+     {
+     	$FontName = Kohana::config('pchart.fonts_folder').$FontName;
+     }
      $this->FontName = $FontName;
      $this->FontSize = $FontSize;
     }
@@ -3486,4 +3491,3 @@
    echo "[FATAL] ".$Message."\r\n";
    exit();
   }
-?>
