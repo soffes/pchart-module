@@ -129,7 +129,7 @@ class PChart
 		{
 			$fontName = Kohana::config('pchart.fonts_folder').$fontName;
 		}
-		$this->FontName = $$fontName;
+		$this->FontName = $fontName;
 		$this->FontSize = $fontSize;
 	}
 	
@@ -284,14 +284,18 @@ class PChart
 	}
 	
 	/* Wrapper to the drawScale() function allowing a second scale to be drawn */
-	function drawRightScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1)
+	function drawRightScale($data, $ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1)
 	{
-		$this->drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks,$Angle,$Decimals,$WithMargin,$SkipLabels,TRUE);
+		
+		$this->drawScale($data, $ScaleMode,$R,$G,$B,$DrawTicks,$Angle,$Decimals,$WithMargin,$SkipLabels,TRUE);
 	}
 	
 	/* Compute and draw the scale */
-	function drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE)
+	function drawScale($data, $ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+	
 		/* Validate the Data and DataDescription array */
 		$this->validateData('drawScale',$Data);
 	
@@ -550,8 +554,11 @@ class PChart
 	}
 	
 	/* Compute and draw the scale for X/Y charts */
-	function drawXYScale($Data,$DataDescription,$YSerieName,$XSerieName,$R,$G,$B,$WithMargin=0,$Angle=0,$Decimals=1)
+	function drawXYScale($data,$YSerieName,$XSerieName,$R,$G,$B,$WithMargin=0,$Angle=0,$Decimals=1)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		
 		/* Validate the Data and DataDescription array */
 		$this->validateData("drawScale",$Data);
 	
@@ -937,8 +944,11 @@ class PChart
 	}
 	
 	/* Draw the data legends */
-	function drawPieLegend($XPos,$YPos,$Data,$DataDescription,$R,$G,$B)
+	function drawPieLegend($XPos,$YPos,$data,$R,$G,$B)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawPieLegend',$DataDescription,FALSE);
 		$this->validateData('drawPieLegend',$Data);
@@ -1069,8 +1079,10 @@ class PChart
 	}
 	
 	/* This function put a label on a specific point */
-	function setLabel($Data,$DataDescription,$SerieName,$ValueName,$Caption,$R=210,$G=210,$B=210)
+	function setLabel($data,$SerieName,$ValueName,$Caption,$R=210,$G=210,$B=210)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('setLabel',$DataDescription);
 		$this->validateData('setLabel',$Data);
@@ -1114,8 +1126,10 @@ class PChart
 	}
 	
 	/* This function draw a plot graph */
-	function drawPlotGraph($Data,$DataDescription,$BigRadius=5,$SmallRadius=2,$R2=-1,$G2=-1,$B2=-1,$Shadow=FALSE)
+	function drawPlotGraph($data,$BigRadius=5,$SmallRadius=2,$R2=-1,$G2=-1,$B2=-1,$Shadow=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawPlotGraph',$DataDescription);
 		$this->validateData('drawPlotGraph',$Data);
@@ -1203,8 +1217,10 @@ class PChart
 	}
 	
 	/* This function draw a plot graph in an X/Y space */
-	function drawXYPlotGraph($Data,$DataDescription,$YSerieName,$XSerieName,$PaletteID=0,$BigRadius=5,$SmallRadius=2,$R2=-1,$G2=-1,$B2=-1,$Shadow=TRUE)
+	function drawXYPlotGraph($data,$YSerieName,$XSerieName,$PaletteID=0,$BigRadius=5,$SmallRadius=2,$R2=-1,$G2=-1,$B2=-1,$Shadow=TRUE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		$R = $this->Palette[$PaletteID]['R'];
 		$G = $this->Palette[$PaletteID]['G'];
 		$B = $this->Palette[$PaletteID]['B'];
@@ -1300,8 +1316,10 @@ class PChart
 	
 	
 	/* This function write the values of the specified series */
-	function writeValues($Data,$DataDescription,$Series)
+	function writeValues($data,$Series)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('writeValues',$DataDescription);
 		$this->validateData('writeValues',$Data);
@@ -1337,8 +1355,10 @@ class PChart
 	}
 	
 	/* This function draw a line graph */
-	function drawLineGraph($Data,$DataDescription,$SerieName='')
+	function drawLineGraph($data,$SerieName='')
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawLineGraph',$DataDescription);
 		$this->validateData('drawLineGraph',$Data);
@@ -1381,8 +1401,10 @@ class PChart
 	}
 	
 	/* This function draw a line graph */
-	function drawXYGraph($Data,$DataDescription,$YSerieName,$XSerieName,$PaletteID=0)
+	function drawXYGraph($data,$YSerieName,$XSerieName,$PaletteID=0)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		$YLast = -1; $XLast = -1;
 		foreach ( $Data as $Key => $Values )
 		 {
@@ -1406,8 +1428,10 @@ class PChart
 	}
 	
 	/* This function draw a cubic curve */
-	function drawCubicCurve($Data,$DataDescription,$Accuracy=.1,$SerieName='')
+	function drawCubicCurve($data,$Accuracy=.1,$SerieName='')
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawCubicCurve',$DataDescription);
 		$this->validateData('drawCubicCurve',$Data);
@@ -1503,8 +1527,11 @@ class PChart
 	}
 	
 	/* This function draw a filled cubic curve */
-	function drawFilledCubicCurve($Data,$DataDescription,$Accuracy=.1,$Alpha=100,$AroundZero=FALSE)
+	function drawFilledCubicCurve($data,$Accuracy=.1,$Alpha=100,$AroundZero=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawFilledCubicCurve',$DataDescription);
 		$this->validateData('drawFilledCubicCurve',$Data);
@@ -1661,15 +1688,18 @@ class PChart
 		  imagecopymerge($this->Picture,$this->Layers[0],$this->GArea_X1,$this->GArea_Y1,0,0,$LayerWidth,$LayerHeight,$Alpha);
 		  imagedestroy($this->Layers[0]);
 	
-		  $this->drawCubicCurve($Data,$DataDescription,$Accuracy,$ColName);
+		  $this->drawCubicCurve($data,$Accuracy,$ColName);
 	
 		  $GraphID++;
 		 }
 	}
 	
 	/* This function draw a filled line graph */
-	function drawFilledLineGraph($Data,$DataDescription,$Alpha=100,$AroundZero=FALSE)
+	function drawFilledLineGraph($data,$Alpha=100,$AroundZero=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		
 		$Empty = -2147483647;
 	
 		/* Validate the Data and DataDescription array */
@@ -1758,13 +1788,15 @@ class PChart
 		  imagecopymerge($this->Picture,$this->Layers[0],$this->GArea_X1,$this->GArea_Y1,0,0,$LayerWidth,$LayerHeight,$Alpha);
 		  imagedestroy($this->Layers[0]);
 		  $GraphID++;
-		  $this->drawLineGraph($Data,$DataDescription,$ColName);
+		  $this->drawLineGraph($data,$ColName);
 		 }
 	}
 	
 	/* This function draw a bar graph */
-	function drawOverlayBarGraph($Data,$DataDescription,$Alpha=50)
+	function drawOverlayBarGraph($data,$Alpha=50)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawOverlayBarGraph',$DataDescription);
 		$this->validateData('drawOverlayBarGraph',$Data);
@@ -1826,8 +1858,10 @@ class PChart
 	}
 	
 	/* This function draw a bar graph */
-	function drawBarGraph($Data,$DataDescription,$Shadow=FALSE,$Alpha=100)
+	function drawBarGraph($data,$Shadow=FALSE,$Alpha=100)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawBarGraph',$DataDescription);
 		$this->validateData('drawBarGraph',$Data);
@@ -1877,8 +1911,10 @@ class PChart
 	}
 	
 	/* This function draw a stacked bar graph */
-	function drawStackedBarGraph($Data,$DataDescription,$Alpha=50,$Contiguous=FALSE)
+	function drawStackedBarGraph($data,$Alpha=50,$Contiguous=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawBarGraph',$DataDescription);
 		$this->validateData('drawBarGraph',$Data);
@@ -1937,8 +1973,10 @@ class PChart
 	}
 	
 	/* This function draw a limits bar graphs */
-	function drawLimitsGraph($Data,$DataDescription,$R=0,$G=0,$B=0)
+	function drawLimitsGraph($data,$R=0,$G=0,$B=0)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawLimitsGraph',$DataDescription);
 		$this->validateData('drawLimitsGraph',$Data);
@@ -1985,8 +2023,10 @@ class PChart
 	}
 	
 	/* This function draw radar axis centered on the graph area */
-	function drawRadarAxis($Data,$DataDescription,$Mosaic=TRUE,$BorderOffset=10,$A_R=60,$A_G=60,$A_B=60,$S_R=200,$S_G=200,$S_B=200,$MaxValue=-1)
+	function drawRadarAxis($data,$Mosaic=TRUE,$BorderOffset=10,$A_R=60,$A_G=60,$A_B=60,$S_R=200,$S_G=200,$S_B=200,$MaxValue=-1)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawRadarAxis',$DataDescription);
 		$this->validateData('drawRadarAxis',$Data);
@@ -2123,8 +2163,10 @@ class PChart
 	}
 	
 	/* This function draw a radar graph centered on the graph area */
-	function drawRadar($Data,$DataDescription,$BorderOffset=10,$MaxValue=-1)
+	function drawRadar($data,$BorderOffset=10,$MaxValue=-1)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawRadar',$DataDescription);
 		$this->validateData('drawRadar',$Data);
@@ -2183,8 +2225,10 @@ class PChart
 	}
 	
 	/* This function draw a radar graph centered on the graph area */
-	function drawFilledRadar($Data,$DataDescription,$Alpha=50,$BorderOffset=10,$MaxValue=-1)
+	function drawFilledRadar($data,$Alpha=50,$BorderOffset=10,$MaxValue=-1)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawFilledRadar',$DataDescription);
 		$this->validateData('drawFilledRadar',$Data);
@@ -2264,8 +2308,10 @@ class PChart
 	}
 	
 	/* This function draw a flat pie chart */
-	function drawBasicPieGraph($Data,$DataDescription,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$R=255,$G=255,$B=255,$Decimals=0)
+	function drawBasicPieGraph($data,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$R=255,$G=255,$B=255,$Decimals=0)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawBasicPieGraph',$DataDescription,FALSE);
 		$this->validateData('drawBasicPieGraph',$Data);
@@ -2370,15 +2416,20 @@ class PChart
 		 }
 	}
 	
-	function drawFlatPieGraphWithShadow($Data,$DataDescription,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$SpliceDistance=0,$Decimals=0)
+	function drawFlatPieGraphWithShadow($data,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$SpliceDistance=0,$Decimals=0)
 	{
-		$this->drawFlatPieGraph($Data,$DataDescription,$XPos+$this->ShadowXDistance,$YPos+$this->ShadowYDistance,$Radius,PIE_NOLABEL,$SpliceDistance,$Decimals,TRUE);
-		$this->drawFlatPieGraph($Data,$DataDescription,$XPos,$YPos,$Radius,$DrawLabels,$SpliceDistance,$Decimals,FALSE);
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		$this->drawFlatPieGraph($data, $XPos+$this->ShadowXDistance,$YPos+$this->ShadowYDistance,$Radius,PIE_NOLABEL,$SpliceDistance,$Decimals,TRUE);
+		$this->drawFlatPieGraph($data, $XPos,$YPos,$Radius,$DrawLabels,$SpliceDistance,$Decimals,FALSE);
 	}
 	
 	/* This function draw a flat pie chart */
-	function drawFlatPieGraph($Data,$DataDescription,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$SpliceDistance=0,$Decimals=0,$AllBlack=FALSE)
+	function drawFlatPieGraph($data, $XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$SpliceDistance=0,$Decimals=0,$AllBlack=FALSE)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
+		
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawFlatPieGraph',$DataDescription,FALSE);
 		$this->validateData('drawFlatPieGraph',$Data);
@@ -2502,8 +2553,10 @@ class PChart
 	}
 	
 	/* This function draw a pseudo-3D pie chart */
-	function drawPieGraph($Data,$DataDescription,$XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$EnhanceColors=TRUE,$Skew=60,$SpliceHeight=20,$SpliceDistance=0,$Decimals=0)
+	function drawPieGraph($data, $XPos,$YPos,$Radius=100,$DrawLabels=PIE_NOLABEL,$EnhanceColors=TRUE,$Skew=60,$SpliceHeight=20,$SpliceDistance=0,$Decimals=0)
 	{
+		$Data = $data->data();
+		$DataDescription = $data->dataDescription();
 		/* Validate the Data and DataDescription array */
 		$this->validateDataDescription('drawPieGraph',$DataDescription,FALSE);
 		$this->validateData('drawPieGraph',$Data);
